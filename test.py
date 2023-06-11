@@ -1,106 +1,198 @@
 import streamlit as st
-
-
-from PIL import Image # 위에 올리는게 좋다
-
+from PIL import Image
 import pandas as pd
-
 import matplotlib.pyplot as plt
-
-
-# 체질량 지수 구하는 앱 
-# 몸무게 , 키 입력 받기
-
-# Using object notation
+import numpy as np
 
 add_selectbox = st.sidebar.selectbox(
     "목차",
-    ("체질량 계산기", "갭 마인더", "마이 페이지")  
+    (" ","삼성 전자","for samsung","반도체 기업 중 삼성은?", "원자밀도 계산기")  
 )
-#3개의 페이지를 만들어보자 if 구문 활용해서 각 해당 영역에 맞는 코드 작성 
+# selectbox 를 사용하여 4가지 박스를 구성했음  첫번 째 박스에 대해서 아무것도 설정 안했다.
 
 
-if add_selectbox =="체질량 계산기":
-    st.write("체질량 계산기 확인해보자 ")
-    st.write("# 체질량 계산기")
 
-    st.info('체질량 지수는 자신의 몸무게를 키의 제곱으로 나눈 값입니다', icon="ℹ️")
 
-    height = st.number_input('키를 입력하세요. (cm)',100,200,170,5) #받는 값 숫자임  #최소 100 최대 200  현재 값 170 설정 클릭 할 때마다 스텝 5
-    st.write('키: ', height,'cm')
 
-    weight = st.number_input('몸무게를  입력하세요. (kg)',30,150,60,5) #받는 값 숫자임  #최소 100 최대 200  현재 값 170 설정 클릭 할 때마다 스텝 5
-    st.write('몸무게: ', weight,'kg')
-
-    bmi=weight/((height/100)**2)
-
-    if st.button('계산'):
+# 두 번째 박스 삼성 전자에 관련된 내용 
+if add_selectbox == "삼성 전자":   
     
-        st.balloons()
+     
+    st.markdown("# **:blue[삼성전자에 대해서 알아보자]** ") #markdown 을 사용하여 삼성의 상징인 파란색으로 글을 작성 해보았다
     
-        st.write("당신의 체질량 지수는",round(bmi,2),'입니다')
-        if bmi>=25:
-        
-            st.error('위험하다 !!', icon="🚨")
-        elif bmi>=23:
-        
-            st.warning('과체중이다 !', icon="⚠️")
-        elif bmi>=20:
-        
-            st.info('정상이다 !', icon="ℹ️")
-        elif bmi>=18.5:
-        
-            st.success('저체중이다 ! ', icon="✅")
+    st.image("스크린샷 2023-06-06 145128.png") #삼성전자 로고에 대한 이미지를 불러옴
+    
+   
+     #radio를 사용하여 역대 회장을 작성 해 보았음 
+    genre = st.radio(
+        "역대 회장 3명 중 한 분을 선택하세요",
+        ('이병철', '이건희', '이재용'))
+       #이병철을 눌렀을 때 
+    if genre == '이병철':
+        if st.button(""):     #첫 번 째 정보가 바로 뜨기 때문에 맨 처음 이병철에 대한 내용은 공백의 버튼으로 설정 눌렀을 때 밑에 코드 실행
+            st.info('대한민국의 기업인. 삼성의 창업주이자 초대 회장이다. 전자산업의 불모지였던 한국의 반도체 산업을 일으킨 양대 주역. 다른 한 명은 아들 이건희로, 아들 이건희가 이병철이 시작한 반도체 산업을 본격적으로 부흥시켜 오늘날의 삼성을 일구었다 ', icon="ℹ️")
+            #  info 를 사용하여 강조하는 말을 적었음
+            st.write("삼성 창업주 겸 초대 총수 (1938~1966)")    #이병철 회장님에 대한 내용
+            st.write("삼성전자 초대 회장 1938-1966,  1968-1987")  #이병철 회장님에 대한 내용
+            st.image("스크린샷 2023-06-06 130411.png") #이병철 회장님 사진
+
+    elif genre== '이건희':  # 이건희 회장님을 눌렀을 때 
+        st.success("아버지인 이병철 회장과 함께 한국의 반도체 산업을 일으킨 양대 주역이며, 삼성그룹의 제2의 창업주라 불려도 손색이 없다. 1987년 취임당시 삼성그룹의 연매출은 10조원이 안 됐지만 그가 취임하고 30년간 경영하면서 삼성그룹의 연매출은 약 400조원으로 무려 40배 가까이 늘어났다. 특히 반도체 산업은 '미친 산업'이라고 불릴 정도로 불확실성이 큰 사업 분야이다 ", icon="✅")
+        #success를 사용해 하고싶은 말 강조
+        st.write("이병철의 장남도 아니고 셋째 아들인 이건희가 삼성을 물려받은 것이 전통적인 재벌 구조에서는 조금 의아할 수 있는데, 이는 1969년 말 이건희의 형들인 이맹희와 이창희가 아버지를 청와대에 고발했던 사건")
+        st.write("일명 왕자의 난을 터뜨리는 바람에 후계구도에서 쫓겨난 탓이 크다.") #이건희 회장님에 대한 내용
+        st.image("스크린샷 2023-06-06 130939.png") #이건희 회장님 사진
+
+
+    elif genre =='이재용':   #이재용 눌렀을 때 
+        st.warning('삼성전자 제3대 회장', icon="⚠️")
+        #하고싶은 말 강조하기 위하여 warning 사용
+        st.write("세간의 예상대로, 2022년 10월 27일 삼성전자 이사회를 통해 회장 승진안이 의결되었고 삼성전자 창립기념일인 11월 1일에 취임식을 진행하여 회장 직위로 재임하였다.")
+        st.write("삼성이 완성형 기업에 위치한 만큼 사회적인 요구에 발 맞춰서 제대로 기여하는 모습을 보여주고 싶다는 포부를 밝히기도 했다. 실제로  이재용 본인이 준법감시위의 권고를 받아들여 삼성의 무노조 경영 방침을 폐지할 것임을 밝혔고")
+        st.write(" 여기에 더불어서 시민사회와 소통을 추진, 특히 삼성의 성역이었던 경영권 승계 문제에 본인이 직접 자식 승계는 없을 것이라고 공언했다.")
+        st.image("스크린샷 2023-06-06 150403.png") #이재용 회장님 사진
             
     
+    # 함수를 사용하여 삼성 전자 주식에 대한 버튼과 삼성 로고 역사 버튼을 만들었음 
+    def main():
+        if st.button("삼성 전자 주식"):      # 삼성 전자 주식 버튼 눌렀을 때 참임 그 밑에 코드 실행
+            data = pd.read_csv('005930.KS.csv')  # 삼성 전자 주식에 대한 csv 파일을 불러오고 그걸 data에 저장
+            st.write(data)  #데이터를 불러온다
+            
+           
+
+        if st.button("삼성 로고 역사"):   #삼성 로고 역사 버튼을 눌렀을 때 참이기에 밑에 코드 실행
+            col1, col2, col3,col4 = st.columns(4) #4가지 사진에 대해 설정
+
+            with col1:
+                st.subheader("1969~1979") #첫번 째 사진에 대한 내용
+                st.image("sreen.png",width=200) # 첫번 째 사진 이미지 불러온다
+                st.write(" 당시 사용하던 상표는 미국철강협회의 'Steelmark'와 유사해 미국 내에선 상표등록이 불가하여 수출을 회사명으로만 명기하는 바람에 이미지 손실을 야기하는 등 기업의 국제화에 따른 CIP 제정 작업이 시급해졌다.")
+                  # 첫 번 째 사진에 대한 내용
+            with col2:
+                st.subheader("1980~1992") #두 번 째 사진 내용
+                st.image("sreen2.png",width=200) # 두번 째 사진 불러옴
+                st.write("해당 로고는 전자기술의 섬세함을 표현하여 전자회사로서의 느낌을 강하게 심어주어 경쟁사와의 심벌과 차별화를 기하였다.")
+
+            with col3:
+                st.subheader("1993~2015") # 세 번 째 사진 내용
+                st.image("스크린샷신1.png",width=200) # 세번 째 사진 불러옴
+                st.write("익숙한 타원형 CI를 쓰기 시작했다.[10] '오벌 마크'라고 부르기도 한다.") # 사진에 대한 내용
+            with col4:
+                st.subheader("2015~현재") # 네 번 째 사진 내용
+                st.image("스크린샷신2.png",width=200) # 네 번 쨰 사진 불러옴
+                st.write(" 그룹 전체에 적용된 타원형 CI에서 워드마크인 SAMSUNG으로 변경되었다. 별도의 고지는 없었지만 대외 홍보물에서 더 이상 타원형 CI를 쓰지 않고 있다. 이는 삼성전자의 갤럭시 S 시리즈의 최신 플래그쉽 모델인 갤럭시 S6 | S6 edge의 로고를 새로 만들면서 기존 삼성전자 제품에 들어가는 삼성 폰트 또한 자사의 워드마크로 변경")
+                        
+        
+    if __name__ == "__main__":
+        main()   # 함수불러옴 
     
 
-# 이미지 다운로드 받는 법 
-#픽사베이 사이트 들어가서 원하는 이미지 다운로드 받고 그 이미지 파일 파이썬 폴더에 저장 그리고 그 이름 복사해서 이미지 함수open 파일 업로드
 
-    image = Image.open('vegetables-1085063_1280.jpg')
-
-    st.image(image, caption='야채를 많이 먹자')
-
+elif add_selectbox =='for samsung':   #for samsung 눌렀을 때 참 밑에 코드 실행
+    st.image("스크린샷 2023-06-06 145128.png")
+    st.markdown("# **:blue[삼성을 준비하자!]** ") # 삼성을 준비하자 내용
     
-elif add_selectbox=="갭 마인더":
-        st.write("하하하")
-        data=pd.read_csv('gapmindercsv.csv')
-        st.write(data)
+
+     #셀렉 박스로 5개 option 설정
+    option = st.selectbox(
+    '크게 5개 정도 구성해보았다',
+    ('-','학력 및 전공', '연구 및 개발 경험', 'GSAT','언어 및 기술 습득'))
+    #option에 대한 값 
+    
+
+
+    if option == '학력 및 전공' : #만약 설정한 옵션값과 학력 및 전공 같다면 밑에 코드 실행 
+        st.write("삼성전자는 고급 기술 및 엔지니어링 분야에서 뛰어난 인재를 선호합니다. 따라서 공학 관련 전공인 전기공학, 전자공학, 컴퓨터공학, 재료공학 등과 같은 분야에서 학위를 취득하는 것이 유리할 수 있습니다. 또한, 석사 또는 박사 학위를 취득하는 경우에도 경쟁력이 높아집니다.")
+        st.info('대학원 안 갈거면 학점 4 이상!! ', icon="ℹ️") 
+    elif option =='연구 및 개발 경험': # 만약 설정한 옵션값과 연구 및 개발 경험 같다면 밑에 코드 실행
+        st.write("반도체 산업은 기술적인 특성과 복잡성 때문에 연구 및 개발 경험이 중요합니다. 대학에서 연구 프로젝트나 학부연구생으로 참여하거나, 학습 외에도 자체적으로 프로젝트를 진행해 보는 등 연구 및 개발에 대한 경험을 쌓는 것이 도움이 될 수 있습니다.")
+        st.info('방학 때 시간 투자 =>무료 공정 실습 및 이론 지식 습득 ', icon="ℹ️")    
+    elif option =='GSAT':  # 만약 설정한 옵션값과 GSAT가 같다면 밑에 코드 실행
+        st.write("삼성 GSAT은 온라인 시험으로 바뀌면서 수리논리와 추리, 두 가지 영역으로 간소화되었다. 수리 영역은 응용계산/자료해석으로 총 20문항에 30분이며, 추리 영역은 어휘추리/도식추리/도형추리/언어추리로 총 30문항에 30분이다.")
+        st.info('4학년 1학기 때 부터 차근차근 준비할 것 !  ', icon="ℹ️")
+    elif option =='언어 및 기술 습득': # 만약 설정한 옵션값과 언어 및 기술 습득이 같다면
+        st.write("토익을 보는 경향 많이 줄어들었고 오픽이나 토익스피킹 보는 경향 Up! ")
+elif add_selectbox=="반도체 기업 중 삼성은?":
+    st.header("반도체 기업에는 크게 3가지가 나뉘어져 있다.")
+    tab1, tab2, tab3 = st.tabs(["펩리스", " Foundry", "IDM"])
+    
+    with tab1:
+        st.header("펩리스=Fabrication+less")
+        st.image('스크린샷 2023-06-11 231002.png')
+        if st.button(""):
+            st.info('Fabrication=제작+less', icon="ℹ️")
+            st.write("팹리스 반도체 제품을 직접 생산fabrication하지 않고 반도체 설계를 전문적으로 하는 반도체 회사를 의미한다. 프론트엔드 분야 중에서도 설계부분만을 진행한다고 보면 된다.") 
+            
+            st.write("대표적인 회사 AMD ,apple")
         
-        year = st.slider('년도를 선택하세요', 1952,2007,1952,5)
-        st.write("year ",year )
+
+        if st.button("왜?"):
+            st.write("공장 만드는 비용 절감(조 단위) + 반도체 기술 특허 대량 제작 가능")
+
+
+
+    with tab2:
+        st.header("Foundry")
+        st.image("스크린샷 2023-06-11 231148.png")
+        st.write("옛날의 주조공장을 FOundry라 일컫음 유래")
+        if st.button("파운드리 운영형태"):
+            st.write('''
+                    해당 업체는 위에 팹리스 회사가 파운더리 업체에 찾아가
+
+                    우리가 설계한 반도체를 생산을 해달라고 계약을 하고
+
+                    서로 계약이 완료가 되면 반도체를 제조 및 생산을 하게 되죠''')
+
+
+    with tab3:
+        st.header("IDM")
+        st.image("스크린샷 2023-06-11 231609.png")
+        st.image("스크린샷 2023-06-06 145128.png")
+        st.write("바로 반도체를 설계를 하고 동시에 제조 및 생산을 하는회사 = IDM")
+        if st.button("설명"):
+            st.write(
+                        '''이에 해당하는 대표적인 회사가 바로 우리나라의 삼성전자죠
+
+                        삼성전자는 스마트폰에 들어가는 자체 AP와 DRAM, SSD에
+
+                        들어가는 NAND Flash 등을 설계하고 자체적으로 생산을 하죠
+
+                        게다가 펩리스 회사에서 의뢰까지 받아서 생산하고 있죠
+
+                        (대표적인 예가 바로 엔디비아의 RTX3000시리즈입니다)''')
+
+
+
+elif add_selectbox=="원자밀도 계산기":  #원자밀도 계산기에 대한 셀렉 박스 생성
+    st.write("# 실리콘의 원자밀도 계산기")
+    st.info('원자 밀도는 유효원자 수/ unit cell의 체적으로 나눈 값입니다', icon="ℹ️")
+    st.success('unit cell의 체적은 격자상수**3 입니다 ', icon="✅")
+
+      # 내가 입력한 수가 유효 원자수 최솟값 1 최댓값 100 초기값 1 step 1 
+    neff= st.number_input("유효 원자수를 입력하세요.",1,100,1,1)
+    st.write("유효 원자 수",neff,'개') # 내가 입력한 유효 원자수를 나타내게함
+    
+
+    #내가 입력한 값이 격자상수값임   
+    lattic = st.number_input('격자상수를 입력하세요. (1/cm**3)',1.0,10.0,1.0,0.01) # 최솟값 1 최댓값 10 초기값 1 step 0.01
+    st.write('격자 상수: ',lattic,'[1/cm]') # 내가 입력한 격자상수 값을 나타내게함
+    power = 1e-8  #power에 대한 값
+    
+    if st.button('원자밀도 계산'):  #원자밀도 계산 버튼을 눌렀을 때 참이기에 밑에 코드실행 
+        atom_desnity=neff/(lattic*power)**3  #유효 원자수 / 격자 상수**3
+        st.write("원자밀도는", atom_desnity ,'[1/cm**3] 입니다') #그 값이 나타내게함
         
-        data=data[data['year']==year]
-
-        colors=[]
-
-        for x in data['continent']:
-            if x=='Asia':
-                  colors.append('tomato')
-            elif x=='Europe':
-                  colors.append('blue')
-            elif x=='Africa':
-                    colors.append('olive')
-            elif x=='Americas':
-                 colors.append('green')
-            else:
-                 colors.append('orange')            
-
-        data['colors']=colors
-
-        fig, ax = plt.subplots()  
-        ax.scatter(data['gdpPercap'],data['lifeExp'],s=data['pop']*0.00002, color=data['colors'])  #스캐터 그램으로 표현하고 싶고 data 중에서 gdp 열 사용하고 싶다 =x 축 y= data 중 기대수명 사용하고싶다
-        ax.set_title("How does gdp per capital relate to life expectancy")
-        ax.set_xlabel("gdp per capital")
-        ax.set_ylabel("life expectancy")
-        st.pyplot(fig)
+        image = Image.open('KakaoTalk_20230606_005042243.jpg') # 이미지 출력
+        st.image(image, caption='다이아 몬드 구조 = 실리콘의 원자밀도 구하는 공식')
 
 
 
 
-elif add_selectbox=='마이 페이지':
-        st.write("여기는 마이페이지입니다")
 
 
-# 판다스 matplotlib 도 
+
+
+
+
+
